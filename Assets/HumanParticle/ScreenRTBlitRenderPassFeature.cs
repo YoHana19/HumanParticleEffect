@@ -23,6 +23,7 @@ public class ScreenRTBlitRenderPassFeature : ScriptableRendererFeature
         { 
             var cmd = CommandBufferPool.Get(nameof(ScreenRTBlitRenderPass));
             cmd.Blit(_currentTarget, _screenBuffer);
+            cmd.SetRenderTarget(_currentTarget);
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
         }

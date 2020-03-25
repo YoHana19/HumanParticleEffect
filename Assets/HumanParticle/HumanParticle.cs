@@ -25,7 +25,6 @@ public class HumanParticle : MonoBehaviour
     [SerializeField] private RenderTexture _colorMapPortrait;
     [SerializeField] private RenderTexture _colorMapLandscape;
     [SerializeField] private VisualEffect _visualEffect;
-    [SerializeField] private RawImage _rawImage;
     
     private RenderTexture _tempRenderTexture;
     private Camera _camera;
@@ -123,8 +122,6 @@ public class HumanParticle : MonoBehaviour
             _computeShader.SetFloat(PropertyID_UVMultiplierPortrait, CalculateUVMultiplierPortrait(humanDepthTexture));
             _visualEffect.SetTexture(PropertyID_PositionMap, _positionMapPortrait);
             _visualEffect.SetTexture(PropertyID_ColorMap, _colorMapPortrait);
-            _rawImage.texture = _colorMapPortrait;
-            _rawImage.SetNativeSize();
         }
         else
         {
@@ -135,8 +132,6 @@ public class HumanParticle : MonoBehaviour
             _computeShader.SetFloat(PropertyID_UVMultiplierLandScape, CalculateUVMultiplierLandScape(humanDepthTexture));
             _visualEffect.SetTexture(PropertyID_PositionMap, _positionMapLandscape);
             _visualEffect.SetTexture(PropertyID_ColorMap, _colorMapLandscape);
-            _rawImage.texture = _colorMapLandscape;
-            _rawImage.SetNativeSize();
         }
 
         SetViewPortInv();
