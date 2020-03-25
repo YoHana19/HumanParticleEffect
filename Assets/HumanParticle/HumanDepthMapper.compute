@@ -1,0 +1,65 @@
+﻿#pragma kernel Portrait
+#pragma kernel Landscape
+
+RWTexture2D<float4> target;
+Texture2D<float4> origin;
+float3 cameraPos;
+float4x4 converter;
+
+int isWide;
+float uVFlip;
+float uVMultiplierPortrait;
+float uVMultiplierLandScape;
+
+SamplerState _LinearClamp;
+
+float2 adjustUV(float2 uv)
+{
+    if (isWide == 1) {
+        float2 forMask = float2(uv.x, (1.0 - (uVMultiplierLandScape * 0.5f)) + (uv.y / uVMultiplierLandScape));
+        return float2(lerp(1.0 - forMask.x, forMask.x, uVFlip), lerp(forMask.y, 1.0 - forMask.y, uVFlip));
+    } else {
+        float2 forMask = float2((1.0 - (uVMultiplierPortrait * 0.5f)) + (uv.x / uVMultiplierPortrait), uv.y);
+        return float2(1.0 - forMask.y, 1.0 - forMask.x);
+    }
+}
+
+float3 getWorldPosition(uint2 screenPos, float distanceFromCamera) 
+{
+    float4 pos = float4((float)screenPos.x, (float)screenPos.y, 0, 1);
+    float4 converted = mul(converter, pos);
+    float3 onNearClip = converted.xyz / converted.w;
+    float3 vec = onNearClip - cameraPos;
+    float dist = sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+    return cameraPos + vec * distanceFromCamera / dist;
+}
+
+[numthreads(25,29,1)]
+void Portrait (uint3 id : SV_DispatchThreadID)
+{
+    float tWidth, tHeight;
+    target.GetDimensions(tWidth, tHeight);
+    float2 uvOrigin = adjustUV(float2((float)id.x/tWidth, (float)id.y/tHeight));
+    float4 t = origin.SampleLevel(_LinearClamp, uvOrigin, 0);
+    if (t.x > 0) {
+        float4 depth = float4(getWorldPosition(id.xy, t.x * 0.625f), 1); // 0.625 hack occlusion depth based on real world observation
+        target[id.xy] = depth;
+    } else {
+        target[id.xy] = float4(0, -10, 0, 1); // Just make sure to be outside of view sight
+    }
+}
+
+[numthreads(29,25,1)]
+void Landscape (uint3 id : SV_DispatchThreadID)
+{
+    float tWidth, tHeight;
+    target.GetDimensions(tWidth, tHeight);
+    float2 uvOrigin = adjustUV(float2((float)id.x/tWidth, (float)id.y/tHeight));
+    float4 t = origin.SampleLevel(_LinearClamp, uvOrigin, 0);
+    if (t.x > 0) {
+        float4 depth = float4(getWorldPosition(id.xy, t.x * 0.625f), 1); // 0.625 hack occlusion depth based on real world observation
+        target[id.xy] = depth;
+    } else {
+        target[id.xy] = float4(0, -10, 0, 1); // Just make sure to be outside of view sight
+    }
+}
