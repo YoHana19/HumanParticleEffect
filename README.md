@@ -4,8 +4,8 @@ This is partcile effect which emit from human body using Human Segementation fun
 
 ![sample](https://raw.github.com/wiki/YoHana19/HumanParticleEffect/images/sample.gif)
 
-I also explain the codes in these blogs. (Japanese Only)
-- [ARFoundationで残像ARエフェクトを作る-残存編-](https://qiita.com/yohanashima/items/b486282fea44b6d42aa4)
+I also explain the codes in this blogs. (Japanese Only)
+- [ARFoundationのHumanDepthTextureをVFXGraphにぶち込む方法](https://qiita.com/yohanashima/items/dd3f1ea20fc783bbcd8c)
 
 ## Enviroment the code tested
 - Unity2019.3.4f1
