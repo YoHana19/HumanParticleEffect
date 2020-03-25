@@ -4,7 +4,7 @@ This is partcile effect which emit from human body using Human Segementation fun
 
 ![sample](https://raw.github.com/wiki/YoHana19/HumanParticleEffect/images/sample.gif)
 
-I also explain the codes in this blogs. (Japanese Only)
+I also explain the codes in this blog. (Japanese Only)
 - [ARFoundationのHumanDepthTextureをVFXGraphにぶち込む方法](https://qiita.com/yohanashima/items/dd3f1ea20fc783bbcd8c)
 
 ## Enviroment the code tested
