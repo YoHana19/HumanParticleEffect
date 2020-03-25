@@ -2,6 +2,11 @@
 
 This is partcile effect which emit from human body using Human Segementation function in Unity ARFoundation that wraps ARKit3.
 
+![sample](https://raw.github.com/wiki/YoHana19/HumanParticleEffect/images/sample.gif)
+
+I also explain the codes in these blogs. (Japanese Only)
+- [ARFoundationで残像ARエフェクトを作る-残存編-](https://qiita.com/yohanashima/items/b486282fea44b6d42aa4)
+
 ## Enviroment the code tested
 - Unity2019.3.4f1
 - Universal RP 7.2.1
